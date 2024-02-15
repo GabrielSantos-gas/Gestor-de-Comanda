@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Listar Comandas{% endblock %}
+
+{% block content %}
+        <div class="container">
+            <h1>Listar Comandas</h1>
+            <div class="card-grid">
+                {% for comanda in comandas %}
+                <div class="card">
+                    <div class="card-header">
+                        Comanda de {{ comanda.nome }}
+                    </div>
+                    <div class="card-body">
+                        <p>Total: R$ {{ comanda.total }}</p>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <a href="{% url 'detalhes_comanda' comanda_id=comanda.id %}" class="btn btn-primary">Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+        </div>
+        <script>
+            // Função para salvar comandas no armazenamento local
+            function salvarComandas() {
+                var comandas = [];
+                document.querySelectorAll('.card').forEach(function(card) {
+                    var nome = card.querySelector('.card-header').innerText.replace('Comanda de ', '');
+                    var total = card.querySelector('.card-body p').innerText.replace('Total: R$ ', '');
+                    comandas.push({ nome: nome, total: total });
+                });
+                localStorage.setItem('comandas', JSON.stringify(comandas));
+            }
+    
+            // Chamar a função para salvar comandas ao carregar a página
+            window.addEventListener('load', salvarComandas);
+        </script>
+{% endblock content %}

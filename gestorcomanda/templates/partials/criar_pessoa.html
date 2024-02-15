@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<form method="post" action="{% url 'criar_comanda' %}">
+    {% csrf_token %}
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome">
+    <button type="submit">Criar Comanda</button>
+</form>
+{% endblock content %}

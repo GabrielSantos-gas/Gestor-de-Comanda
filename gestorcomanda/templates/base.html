@@ -1,0 +1,70 @@
+<!-- base_template.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Meu Site{% endblock %}</title>
+    <link rel="stylesheet" href= 'static/css/styles.css'>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <nav>
+                <ul>
+                    <a class="btn btn-primary" href="{% url 'criar_comanda' %}">Criar Comandas</a>
+                    <a class="btn btn-primary" href="{% url 'buscar_comandas' %}">Buscar Comandas</a>
+                    <a class="btn btn-primary" href="{% url 'listar_comandas' %}">Home</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+                    {% endif %}
+                </ul>
+                
+            </nav>
+        </header>
+        <main>
+            {% block content %}
+            <div class="container">
+                <h1>Listar Comandas</h1>
+                <div class="card-grid">
+                    {% for comanda in comandas %}
+                    <div class="card">
+                        <div class="card-header">
+                            Comanda de {{ comanda.nome }}
+                        </div>
+                        <div class="card-body">
+                            <p>Total: R$ {{ comanda.total }}</p>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <a href="{% url 'detalhes_comanda' comanda_id=comanda.id %}" class="btn btn-primary">Detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+            
+            {% endblock %}
+
+        </main>
+    </div>
+    <script>
+        // Função para carregar comandas do armazenamento local
+        function carregarComandas() {
+            var comandas = localStorage.getItem('comandas');
+            return comandas ? JSON.parse(comandas) : [];
+        }
+    
+        // Exemplo de uso: carregar as comandas ao abrir a página
+        window.addEventListener('load', function() {
+            var comandas = carregarComandas();
+            console.log('Comandas salvas:', comandas);
+        });
+    </script>
+    <footer class='footer'>
+        <!-- Conteúdo do rodapé comum -->
+        <p>&copy; 2022 Meu Site</p>
+    </footer>
+</body>
+</html>
