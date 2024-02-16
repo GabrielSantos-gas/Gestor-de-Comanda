@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Meu Site{% endblock %}</title>
-    <link rel="stylesheet" href= 'static/css/styles.css'>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
     <div class="container">
@@ -15,7 +15,10 @@
                     <a class="btn btn-primary" href="{% url 'buscar_comandas' %}">Buscar Comandas</a>
                     <a class="btn btn-primary" href="{% url 'listar_comandas' %}">Home</a>
                     {% if user.is_authenticated %}
-                    <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                        <form action="{% url 'admin:logout' %}" method="post" id="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Logout</button>
+                        </form>
                     {% else %}
                         <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
                     {% endif %}
@@ -61,10 +64,14 @@
             var comandas = carregarComandas();
             console.log('Comandas salvas:', comandas);
         });
+
+        
+        document.getElementById('logout-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            this.submit();
+        });
+        
     </script>
-    <footer class='footer'>
-        <!-- Conteúdo do rodapé comum -->
-        <p>&copy; 2022 Meu Site</p>
-    </footer>
+    
 </body>
 </html>

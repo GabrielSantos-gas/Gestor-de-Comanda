@@ -3,6 +3,7 @@ from django.db import models
 class Comanda(models.Model):
     nome = models.CharField(max_length=100)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    data = models.DateField(auto_now_add=True)
     excluida = models.BooleanField(default=False)  # Adicione esta linha
 
     def __str__(self):

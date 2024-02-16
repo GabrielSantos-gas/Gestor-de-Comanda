@@ -6,6 +6,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import logout as auth_logout
+from django.contrib import messages
+from datetime import datetime
+from django.utils import timezone
+from datetime import date
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import View
+
+
 
     
 
@@ -39,7 +47,7 @@ def register_view(request):
 
 def logout_view(request):
     auth_logout(request)
-    return redirect('login')
+    return redirect('registration/login')
 
 
 @login_required
@@ -63,6 +71,7 @@ def adicionar_item(request, comanda_id):
 
 @login_required
 def listar_comandas(request):
+    hoje = datetime.now().date()
     comandas = Comanda.objects.filter(excluida=False)
     return render(request, 'listar_comandas.html', {'comandas': comandas})
 
@@ -72,8 +81,12 @@ def criar_comanda(request):
     if request.method == 'POST':
         nome = request.POST.get('nome')
         if nome:
-            comanda = Comanda.objects.create(nome=nome, total=0)
-            return redirect('detalhes_comanda', comanda_id=comanda.id)
+            if Comanda.objects.filter(nome=nome).exists():
+                messages.error(request, 'Já existe uma comanda com este nome. Por favor, escolha outro nome.')
+            else:
+                nova_comanda = Comanda(nome=nome, total=0, data=date.today())
+                nova_comanda.save()
+                return redirect('detalhes_comanda', comanda_id=nova_comanda.id)
     return render(request, 'partials/criar_comanda.html')
 
 
@@ -130,3 +143,9 @@ def buscar_comandas(request):
     
     return render(request, 'partials/buscar_comandas.html', {'comandas': comandas, 'q': q})
 
+
+class MinhaViewProtegida(LoginRequiredMixin, View):
+    login_url = '/login/'  # URL para redirecionamento de login
+    def get(self, request):
+        # Lógica da view
+        return redirect('/login')
