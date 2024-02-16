@@ -1,4 +1,5 @@
 <!-- base_template.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +16,7 @@
                     <a class="btn btn-primary" href="{% url 'buscar_comandas' %}">Buscar Comandas</a>
                     <a class="btn btn-primary" href="{% url 'listar_comandas' %}">Home</a>
                     {% if user.is_authenticated %}
-                        <form action="{% url 'admin:logout' %}" method="post" id="logout-form">
+                        <form action="{% url 'logout' %}" method="post" id="logout-form">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-primary">Logout</button>
                         </form>
