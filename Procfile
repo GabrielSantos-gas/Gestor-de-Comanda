@@ -1,2 +1,4 @@
-web: gunicorn gestor.wsgi --log-file -
+web: gunicorn gestor.wsgi --log-file 
+web: gunicorn gettingstarted.wsgi
+web: python manage.py runserver %PORT%
 

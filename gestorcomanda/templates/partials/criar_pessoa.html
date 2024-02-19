@@ -4,9 +4,6 @@
 
 
 {% block content %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
 <form method="post" action="{% url 'criar_comanda' %}">
     {% csrf_token %}
     <label for="nome">Nome:</label>

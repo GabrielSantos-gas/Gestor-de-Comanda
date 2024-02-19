@@ -1,10 +1,8 @@
 {% extends 'base_templates.html' %}
+
 {% load static %}
 
 {% block content %}
-<header>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</header>
 <div class="container">
     <form method="post" action="{% url 'criar_comanda' %}">
         {% csrf_token %}
