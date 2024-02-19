@@ -1,4 +1,4 @@
 [[redirects]]
 from = "/*"
-to = "gestor/base_template.html"
+to = "/index.html"
 status = 200
