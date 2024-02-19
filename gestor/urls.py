@@ -9,7 +9,7 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns # new
 from django.conf import settings
 from django.views.static import serve
-from views import *
+from .views import *
 
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
@@ -24,6 +24,7 @@ urlpatterns = [
     path('excluir_item/<int:comanda_id>/<int:item_id>/', excluir_item, name='excluir_item'),
     path('buscar_comandas/', buscar_comandas, name='buscar_comandas'),
     path('register/', register_view, name='register'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', logout_view, name='logout'),
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),

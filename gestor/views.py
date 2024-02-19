@@ -5,40 +5,43 @@ def home(request):
 
 
 def listar_comandas(request):
-    return render(request, 'gestorcomanda/partials/listar_comandas.html')
+    return render(request, 'partials/listar_comandas.html')
 
 
 def adicionar_item(request, comanda_id):
-    return render(request, 'gestorcomanda/partials/adicionar_item.html')
+    return render(request, 'partials/adicionar_item.html')
 
 
 def editar_comanda(request, comanda_id):
-    return render(request, 'gestorcomanda/partials/editar_comanda.html')
+    return render(request, 'partials/editar_comanda.html')
 
 
 def criar_comanda(request):
-    return render(request, 'gestorcomanda/partials/criar_comanda.html')
+    return render(request, 'partials/criar_comanda.html')
 
 
 def detalhes_comanda(request, comanda_id):
-    return render(request, 'gestorcomanda/partials/detalhes_comanda.html')
+    return render(request, 'partials/detalhes_comanda.html')
 
 
 def excluir_comanda(request, comanda_id):
-    return render(request, 'gestorcomanda/partials/excluir_comanda.html')
+    return render(request, 'partials/excluir_comanda.html')
 
 
 def excluir_item(request, comanda_id, item_id):
-    return render(request, 'gestorcomanda/partials/excluir_item.html')
+    return render(request, 'partials/excluir_item.html')
 
 
 def buscar_comandas(request):
-    return render(request, 'gestorcomanda/partials/buscar_comandas.html')
+    return render(request, 'partials/buscar_comandas.html')
 
 
 def register_view(request):
-    return render(request, 'gestorcomanda/partials/register.html')
+    return render(request, 'registration/register.html')
 
 
 def logout_view(request):
-    return render(request, 'gestorcomanda/partials/logout.html')
+    return render(request, 'registration/logout.html')
+
+def login_views(request):
+    return render(request, 'registration/login.html')
