@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 def home(request):
-    return render(request, 'base_templates.html')
+    return render(request, 'index.html')
 
 
 def listar_comandas(request):
