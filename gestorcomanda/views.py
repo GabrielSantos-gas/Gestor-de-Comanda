@@ -73,7 +73,7 @@ def adicionar_item(request, comanda_id):
 def listar_comandas(request):
     hoje = datetime.now().date()
     comandas = Comanda.objects.filter(excluida=False)
-    return render(request, 'listar_comandas.html', {'comandas': comandas})
+    return render(request, 'partials/listar_comandas.html', {'comandas': comandas})
 
 
 @login_required

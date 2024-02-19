@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'base_templates.html' %}
 {% load static %}
 
 
@@ -16,6 +16,11 @@
             <ul>
                 {% for message in messages %}
                 <li>{{ message }}</li>
+                {% if user.is_authenticated %}
+                    <p>Logado como: {{ user.username }}</p>
+                {% else %}
+                    <p>Você não está logado</p>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>

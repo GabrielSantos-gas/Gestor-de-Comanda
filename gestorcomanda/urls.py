@@ -15,7 +15,6 @@ urlpatterns = [
     path('comanda/<int:comanda_id>/excluir_comanda/', views.excluir_comanda, name='excluir_comanda'),
     path('comanda/<int:comanda_id>/excluir_item/<int:item_id>/', views.excluir_item, name='excluir_item'),
     path('buscar_comandas/', views.buscar_comandas, name='buscar_comandas'),
-    path('comanda/<int:comanda_id>/excluir_comanda/', views.excluir_comanda, name='excluir_comanda'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('register/', views.register_view, name='register'),
     path('logout/', views.logout_view, name='logout'),
