@@ -143,9 +143,9 @@ def buscar_comandas(request):
     
     return render(request, 'partials/buscar_comandas.html', {'comandas': comandas, 'q': q})
 
-
+@login_required
 class MinhaViewProtegida(LoginRequiredMixin, View):
-    login_url = '/login/'  # URL para redirecionamento de login
+    login_url = 'login'  # URL para redirecionamento de login
     def get(self, request):
         # Lógica da view
         return redirect('/login')
