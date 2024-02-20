@@ -83,17 +83,6 @@ body {
 }
 
 
-
-
-.container1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-
-
 .footer{
     margin: 0;
     padding-top: 100px;
