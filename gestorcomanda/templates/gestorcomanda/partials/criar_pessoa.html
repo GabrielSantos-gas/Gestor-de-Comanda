@@ -1,0 +1,13 @@
+{% extends 'global/base_templates.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<form method="post" action="{% url 'criar_comanda' %}">
+    {% csrf_token %}
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome">
+    <button type="submit">Criar Comanda</button>
+</form>
+{% endblock content %}

@@ -1,0 +1,38 @@
+{% extends 'global/base_templates.html' %}
+{% load static %}
+
+{% block content %}
+<form method="GET" action="{% url 'buscar_comandas' %}">
+    <input class="card-text" name="q" placeholder="Pesquisar comanda...">
+    <button class="btn btn-primary" type="submit">Buscar</button>
+
+</form>
+
+<div class="container">
+    <div class="container">
+        <h1>Resultado da busca por comandas</h1>
+        <div class="card-grid">
+            {% for comanda in comandas %}
+            <div class="card">
+                <div class="card-header">
+                    <p href="{% url 'detalhes_comanda' comanda_id=comanda.id %}">{{ comanda.nome }}</p>
+                </div>
+                <div class="card-body">
+                    <p>Total: R$ {{ comanda.total }}</p>
+                </div>
+                <form method="POST" action="{% url 'excluir_comanda' comanda_id=comanda.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+            {% empty %}
+            <div>
+                <h2>Nenhuma comanda encontrada.</h2>
+                <a class="btn btn-primary" href="{% url 'buscar_comandas' %}">Voltar</a>
+            </div>
+            
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
