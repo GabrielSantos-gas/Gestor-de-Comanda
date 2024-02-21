@@ -8,7 +8,7 @@ from django.conf import settings
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-    path('login/account/', auth_views.LoginView.as_view(), name='login_account'),
+    path('login/account/', auth_views.LoginView.as_view(), name='login'),
     # Outras URLs de autenticação e do seu app
     path('', include('gestorcomanda.urls')),
     # Adicione isso se você incluir suas outras URLs em um arquivo gestorcomanda/urls.py

@@ -15,8 +15,9 @@ urlpatterns = [
     path('buscar_comandas/', buscar_comandas, name='buscar_comandas'),
     path('register/', register_view, name='register'),
     path('logout/', logout_view, name='logout'),
+    path('login/account/', auth_views.LoginView.as_view(), name='login')
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += [path('login/account/', auth_views.LoginView.as_view(), name='login_account')]
+
 

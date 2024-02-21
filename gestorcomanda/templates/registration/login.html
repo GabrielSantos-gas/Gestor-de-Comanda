@@ -9,7 +9,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Login</button>
-            <p>Não tem uma conta? <a href="{% url 'registration/register' %}">Registrar-se</a></p>
+            <p>Não tem uma conta? <a href="{% url 'register' %}">Registrar-se</a></p>
         </form>
         {% if messages %}
         <div class="alert alert-warning">
