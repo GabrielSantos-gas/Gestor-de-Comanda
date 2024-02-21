@@ -4,6 +4,7 @@ from gestorcomanda.views import listar_comandas, adicionar_item, editar_comanda,
 from django.views.static import serve
 from django.conf import settings
 from django.contrib import admin
+from gestorcomanda.views import atualizar_quantidade_item
 
 urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
@@ -11,6 +12,7 @@ urlpatterns = [
     path('', listar_comandas, name='listar_comandas'),
     path('comanda/<int:comanda_id>/adicionar_item/', adicionar_item, name='adicionar_item'),
     path('comanda/<int:comanda_id>/editar_comanda/', editar_comanda, name='editar_comanda'),
+    path('atualizar_quantidade_item/<int:item_id>/<int:quantidade>/', atualizar_quantidade_item, name='atualizar_quantidade_item'),
     path('criar_comanda/', criar_comanda, name='criar_comanda'),
     path('comanda/<int:comanda_id>/', detalhes_comanda, name='detalhes_comanda'),
     path('comanda/<int:comanda_id>/excluir_comanda/', excluir_comanda, name='excluir_comanda'),

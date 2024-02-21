@@ -12,7 +12,8 @@ from django.utils import timezone
 from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import View
-
+from django.http import JsonResponse
+from .models import Item
 
 
     
@@ -58,10 +59,11 @@ def adicionar_item(request, comanda_id):
         if form.is_valid():
             descricao = form.cleaned_data['descricao']
             valor = form.cleaned_data['valor']
-            total += valor
+            quantidade = form.cleaned_data['quantidade']
+            total = comanda.total + (valor * quantidade)
             comanda.total = total
             comanda.save()
-            Item.objects.create(comanda=comanda, descricao=descricao, valor=valor)
+            Item.objects.create(comanda=comanda, descricao=descricao, valor=valor, quantidade=quantidade)
             return redirect('detalhes_comanda', comanda_id=comanda_id)
     else:
         form = ItemForm()
@@ -99,14 +101,23 @@ def editar_comanda(request, comanda_id):
         if form.is_valid():
             descricao = form.cleaned_data['descricao']
             valor = form.cleaned_data['valor']
-            total += valor
+            quantidade = form.cleaned_data['quantidade']
+            total = comanda.total + (valor * quantidade)
             comanda.total = total
             comanda.save()
-            Item.objects.create(comanda=comanda, descricao=descricao, valor=valor)
+            Item.objects.create(comanda=comanda, descricao=descricao, valor=valor, quantidade=quantidade)
             return redirect('editar_comanda', comanda_id=comanda_id)
     else:
         form = ItemForm()
-    return render(request, 'partials/editar_comanda.html', {'comanda': comanda, 'itens': itens, 'total': total, 'form': form})
+    context = {
+        'comanda': comanda,
+        'itens': itens,
+        'total': total,
+        'form': form,
+        'comanda_id': comanda_id,  # Adiciona o ID da comanda ao contexto
+    }
+    return render(request, 'partials/editar_comanda.html', context)
+
 
 
 @login_required
@@ -144,6 +155,30 @@ def buscar_comandas(request):
 
 
 
+def atualizar_quantidade_item(request, comanda_id, item_id):
+    if request.method == 'POST':
+        quantidade = request.POST.get('quantidade')
+        try:
+            item = Item.objects.get(pk=item_id)
+            item.quantidade = quantidade
+            item.save()
+
+            # Calcular o total da comanda após a atualização do item
+            total = calcular_total_comanda(item.comanda)
+
+            return JsonResponse({'success': True, 'total': total})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    return JsonResponse({'success': False, 'error': 'Método não permitido'})
+
+def calcular_total_comanda(comanda):
+    total = 0
+    for item_comanda in comanda.item_set.all():
+        total += item_comanda.quantidade * item_comanda.valor
+    return total
+
+
+
 class MinhaViewProtegida(LoginRequiredMixin, View):
     login_url = 'login'  # URL para redirecionamento de login
     def get(self, request):
@@ -151,3 +186,5 @@ class MinhaViewProtegida(LoginRequiredMixin, View):
             return redirect('login')
         # Lógica da view
         return redirect(request, 'listar_comandas.html')
+    
+   
