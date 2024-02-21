@@ -1,6 +1,5 @@
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from gestorcomanda.auth_urls import urlpatterns as auth_urlpatterns
 from gestorcomanda.views import *
 from django.conf import settings 
 from django.conf.urls.static import static
@@ -20,4 +19,4 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += [path('login/account/', auth_views.LoginView.as_view(), name='login_account')]
-urlpatterns += [path('auth/', include(auth_urlpatterns))]  # ou qualquer outro prefixo que você queira para suas URLs de autenticação
+
