@@ -47,7 +47,7 @@ def register_view(request):
 
 def logout_view(request):
     auth_logout(request)
-    return redirect('registration/login')
+    return redirect('login')
 
 
 @login_required
