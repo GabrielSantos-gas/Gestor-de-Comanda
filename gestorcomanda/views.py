@@ -39,10 +39,9 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('listar_comandas')  # Redirecionar para a página de login após o registro bem-sucedido
+            return redirect('login')  # Redirecionar para a página de login após o registro bem-sucedido
     else:
         form = UserCreationForm()
-        
     return render(request, 'registration/register.html', {'form': form})
 
 def logout_view(request):
@@ -143,9 +142,12 @@ def buscar_comandas(request):
     
     return render(request, 'partials/buscar_comandas.html', {'comandas': comandas, 'q': q})
 
-@login_required
+
+
 class MinhaViewProtegida(LoginRequiredMixin, View):
-    login_url = '/login/'  # URL para redirecionamento de login
+    login_url = 'login'  # URL para redirecionamento de login
     def get(self, request):
+        if not request.user.is_authenticated:
+            return redirect('login')
         # Lógica da view
-        return redirect('/login')
+        return redirect(request, 'listar_comandas.html')
