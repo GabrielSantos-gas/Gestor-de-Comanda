@@ -26,7 +26,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('editar_comanda')  # Redirecionar para a página após o login
+                return redirect('listar_comandas')  # Redirecionar para a página após o login
     else:
         form = AuthenticationForm()
         
@@ -39,7 +39,7 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirecionar para a página de login após o registro bem-sucedido
+            return redirect('listar_comandas')  # Redirecionar para a página de login após o registro bem-sucedido
     else:
         form = UserCreationForm()
         
