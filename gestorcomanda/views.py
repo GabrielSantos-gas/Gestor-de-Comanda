@@ -155,11 +155,15 @@ def buscar_comandas(request):
 
 
 
-def atualizar_quantidade_item(request, comanda_id, item_id):
+def atualizar_quantidade_item(request, comanda_id, item_id, quantidade_id):
     if request.method == 'POST':
-        quantidade = request.POST.get('quantidade')
         try:
-            item = Item.objects.get(pk=item_id)
+            quantidade = int(request.POST.get('quantidade'))
+        except ValueError:
+            return JsonResponse({'success': False, 'error': 'Quantidade inválida'})
+
+        try:
+            item = Item.objects.get(pk=quantidade_id)
             item.quantidade = quantidade
             item.save()
 
@@ -167,6 +171,8 @@ def atualizar_quantidade_item(request, comanda_id, item_id):
             total = calcular_total_comanda(item.comanda)
 
             return JsonResponse({'success': True, 'total': total})
+        except Item.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Item não encontrado'})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
     return JsonResponse({'success': False, 'error': 'Método não permitido'})

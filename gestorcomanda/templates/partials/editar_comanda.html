@@ -3,41 +3,41 @@
 
 {% block content %}
 
-<h1>Detalhes da Comanda</h1>
-<div class="card-header">
-    Comanda de {{ comanda.nome }}
-</div>
-<div class="card-body">
-    <p id="total-comanda">Total: R$ {{ comanda.total }}</p>
-</div>
-<ul>
+    <h1>Detalhes da Comanda</h1>
+    <div class="card-header">
+        Comanda de {{ comanda.nome }}
+    </div>
+    <div class="card-body">
+        <p id="total-comanda">Total: R$ {{ comanda.total }}</p>
+    </div>
+    <ul>
     {% for item in itens %}
-        <div class="card card-detalhe">
-            <div class="card-body">
-                <h5 class="card-title">{{ item.descricao }}</h5>
-                <p class="card-text">Valor: R$ {{ item.valor }}</p>
-                <div class="input-group mb-3">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="decrementarQuantidade({{ item_id }})">-</button>
-                    </span>
-                    <input type="text" quantidade="{{ comandas }}" class="form-control text-center" value="{{ item.quantidade }}" readonly>
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="incrementarQuantidade({{ item.id }})">+</button>
-                    </span>
-                </div>
-                <form id="form-excluir-item-{{ item.id }}" method="POST" action="{% url 'excluir_item' comanda_id=comanda.id item_id=item.id %}">
-                    {% csrf_token %}
-                    <button type="button" onclick="excluirItem({{ item.id }})" class="btn btn-danger">Excluir</button>
-                </form>
+    <div class="card card-detalhe">
+        <div class="card-body">
+            <h5 class="card-title">{{ item.descricao }}</h5>
+            <p class="card-text">Valor: R$ {{ item.valor }}</p>
+            <div class="input-group mb-3">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="decrementarQuantidade({{ comanda.id }}, {{ item.id }})">-</button>
+                </span>
+                <input type="text" id="quandtidade{{item.id}}" class="form-control text-center" value="{{ item.quantidade }}" readonly>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="incrementarQuantidade({{ comanda.id }}, {{ item.id }})">+</button>
+                </span>
             </div>
+            <!-- Formulário para excluir o item -->
+            <form id="form-excluir-item-{{ item.id }}" method="POST" action="{% url 'excluir_item' comanda_id=comanda.id item_id=item.id %}">
+                {% csrf_token %}
+                <button type="button" onclick="excluirItem({{ item.id }})" class="btn btn-danger">Excluir</button>
+            </form>
         </div>
-    {% endfor %}
+    </div>
+{% endfor %}
 </ul>
 
 <script>
     function incrementarQuantidade(comandaId, itemId) {
         var inputQuantidade = document.getElementById('quantidade' + itemId);
-        console.log(inputQuantidade);
         if (inputQuantidade) {
             var quantidade = parseInt(inputQuantidade.value) + 1;
             inputQuantidade.value = quantidade;
@@ -49,10 +49,9 @@
     
     function decrementarQuantidade(comandaId, itemId) {
         var inputQuantidade = document.getElementById('quantidade' + itemId);
-        console.log(inputQuantidade);
         if (inputQuantidade) {
             var quantidade = parseInt(inputQuantidade.value) - 1;
-            if (quantidade >= 0) {
+            if (quantidade >= 1) {
                 inputQuantidade.value = quantidade;
                 atualizarQuantidade(comandaId, itemId, quantidade);
             }

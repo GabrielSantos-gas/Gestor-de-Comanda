@@ -1,5 +1,8 @@
 from django import forms
+from .models import Item
 
-class ItemForm(forms.Form):
-    descricao = forms.CharField(max_length=100)
-    valor = forms.DecimalField(max_digits=10, decimal_places=2)
+class ItemForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ['descricao', 'valor', 'quantidade']
+    
